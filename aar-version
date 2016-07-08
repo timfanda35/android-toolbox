@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Read versionCode and versionName from *.aar file
+#
+
+VERSION="0.1.0"
+
+which unzip > /dev/null
+if [ ! 0 == $? ]; then
+  echo "please install unzip first"
+  exit
+fi
+
+if [ $# -eq 0 ]; then
+  echo "version: $VERSION"
+  echo "usage: aar-version [aar file]"
+  exit
+fi
+
+xml=`unzip -p $1 AndroidManifest.xml`
+
+echo $xml | grep -Eo "android:versionCode=\"[^\"]+\""
+echo $xml | grep -Eo "android:versionName=\"[^\"]+\""
